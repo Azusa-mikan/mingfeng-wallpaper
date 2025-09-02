@@ -1,14 +1,22 @@
 # Suzume 壁纸生成器
 
-https://szm.kermanx.com
+https://mingfeng.azusa-mikan.sakuravalley.xyz
 
 [![screenshot](./public/screenshot.png)
-](https://szm.kermanx.com)
+](请查看部署配置中的 VITE_BASE_URL 环境变量)
 
-### 灵感来源
+### 环境配置
 
-- Suzume 的鼠标垫周边，也即 https://szm.moe/ 上的那张壁纸
-- https://github.com/Lingluoluo/More_Suzume
+在项目根目录创建 `.env` 文件，配置以下环境变量：
+
+```env
+# 网站基础 URL
+VITE_BASE_URL=https://your-domain.com
+```
+
+### 特别感谢
+
+- https://github.com/kermanx/suzume-wallpaper
 
 ### 素材来源
 

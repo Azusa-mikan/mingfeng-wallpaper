@@ -5,7 +5,7 @@ import { resolve } from 'node:path'
 import { fileURLToPath, URL } from 'node:url'
 import sharp from 'sharp'
 import UnoCSS from 'unocss/vite'
-import { defineConfig, Plugin } from 'vite'
+import { defineConfig, Plugin, loadEnv } from 'vite'
 
 async function hasTransparentCorners(buffer: Buffer): Promise<boolean> {
   try {
@@ -60,9 +60,9 @@ async function hasTransparentCorners(buffer: Buffer): Promise<boolean> {
 }
 
 const szmFiles = Promise.all(
-  readdirSync(resolve(import.meta.dirname, 'suzume'))
+  readdirSync(resolve(import.meta.dirname, 'mingfeng'))
     .map(async filename => {
-      const buffer = await readFile(resolve(import.meta.dirname, 'suzume', filename))
+      const buffer = await readFile(resolve(import.meta.dirname, 'mingfeng', filename))
       const hasTransparent = await hasTransparentCorners(buffer)
       return hasTransparent ? buffer : null
     })
@@ -83,18 +83,35 @@ const szmPlugin = (): Plugin => ({
   }
 })
 
-export default defineConfig({
-  plugins: [
-    vue(),
-    UnoCSS(),
-    szmPlugin(),
-  ],
-  worker: {
-    plugins: () => [szmPlugin()]
-  },
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+// HTML 转换插件，用于替换硬编码的 URL
+const htmlTransformPlugin = (baseUrl: string): Plugin => ({
+  name: 'html-transform',
+  transformIndexHtml(html: string) {
+    console.log('HTML Transform Plugin - Base URL:', baseUrl)
+    const transformed = html.replace(/https:\/\/szm\.kermanx\.com/g, baseUrl)
+    console.log('HTML Transform Plugin - Transformation applied:', html !== transformed)
+    return transformed
+  }
+})
+
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  const baseUrl = env.VITE_BASE_URL || 'https://szm.kermanx.com'
+  
+  return {
+    plugins: [
+      vue(),
+      UnoCSS(),
+      szmPlugin(),
+      htmlTransformPlugin(baseUrl),
+    ],
+    worker: {
+      plugins: () => [szmPlugin()]
     },
-  },
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
+      },
+    },
+  }
 })

@@ -4,6 +4,7 @@ import { computed, onMounted, ref, useTemplateRef, watch, type CSSProperties } f
 import CanvasSettingsDialog from './CanvasSettingsDialog.vue';
 import GenerationSettingsDialog from './GenerationSettingsDialog.vue';
 import { canvasElement, canvasKey, copyWallpaper, downloadWallpaper, generateWallpaper, imageDataURL, imagesLoaded, isMobile, wallpaperHeight, wallpaperWidth } from './logic';
+import { getFullUrl, config } from './config';
 import { inject } from "@vercel/analytics"
 
 onMounted(() => inject())
@@ -90,8 +91,8 @@ const hideAuthorDialog = () => {
 }
 
 const shareToPlatform = (platform: string) => {
-  const text = '来试试这个可爱的 Suzume 壁纸生成器喵！'
-  const url = 'https://szm.kermanx.com/'
+  const text = '来试试这个可爱的 明风OuO 壁纸生成器喵！'
+  const url = getFullUrl('/')
 
   switch (platform) {
     case 'twitter':
@@ -117,7 +118,7 @@ const shareToPlatform = (platform: string) => {
       // 使用系统级分享 (Web Share API)
       if (navigator.share) {
         navigator.share({
-          title: 'Suzume 壁纸生成器',
+          title: '明风OuO 壁纸生成器',
           text: text,
           url: url
         }).catch((error) => {
@@ -133,27 +134,27 @@ const shareToPlatform = (platform: string) => {
 </script>
 
 <template>
-  <div class="fixed inset-0 bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 overflow-auto">
+  <div class="fixed inset-0 bg-gradient-to-br from-blue-50 via-sky-50 to-blue-100 overflow-auto">
     <!-- 主要内容 -->
     <div class="relative z-10 flex flex-col h-full">
       <!-- 标题区域 -->
       <div class="flex-grow-1 flex flex-col justify-center p-2 md:p-8 max-w-4xl mx-auto w-full">
         <div class="text-center mb-4 md:mb-8">
-          <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold text-green-700 mb-2 tracking-wide drop-shadow-sm">
-            雀宮すずめ壁纸生成器
+          <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold text-blue-500 mb-2 tracking-wide drop-shadow-sm">
+            明风OuO 壁纸生成器
           </h1>
         </div>
 
         <!-- 操作按钮组 -->
         <div v-if="imagesLoaded" class="flex flex-wrap justify-center gap-3">
           <button v-if="!isMobile" @click="handleCopy"
-            class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-green-200 to-emerald-200 text-green-700 hover:from-green-300 hover:to-emerald-300 hover:text-green-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
+            class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-blue-200 to-sky-200 text-blue-600 hover:from-blue-300 hover:to-sky-300 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
             <span class="text-lg">📋</span>
             {{ copied1 ? '已复制&emsp;' : '复制图像' }}
           </button>
 
           <button v-if="!isMobile" @click="handleDownload"
-            class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-green-200 to-emerald-200 text-green-700 hover:from-green-300 hover:to-emerald-300 hover:text-green-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
+            class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-blue-200 to-sky-200 text-blue-600 hover:from-blue-300 hover:to-sky-300 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
             <span class="text-lg">📥</span>
             下载图像
           </button>
@@ -161,7 +162,7 @@ const shareToPlatform = (platform: string) => {
           <button @click="generateWallpaper" :disabled="!imagesLoaded"
             class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg justify-center"
             :class="imagesLoaded
-              ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 hover:shadow-xl hover:-translate-y-1'
+              ? 'bg-gradient-to-r from-blue-500 to-sky-500 text-white hover:from-blue-600 hover:to-sky-600 hover:shadow-xl hover:-translate-y-1'
               : 'bg-gradient-to-r from-gray-400 to-gray-500 text-gray-200 cursor-not-allowed'">
             <span class="text-xl">🎨</span>
             {{ imagesLoaded ? '重新生成' : '加载图片中...' }}
@@ -169,7 +170,7 @@ const shareToPlatform = (platform: string) => {
 
 
           <button v-if="isMobile" @click="handleDownload"
-            class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-green-200 to-emerald-200 text-green-700 hover:from-green-300 hover:to-emerald-300 hover:text-green-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
+            class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-blue-200 to-sky-200 text-blue-600 hover:from-blue-300 hover:to-sky-300 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1 min-w-[120px] justify-center">
             <span class="text-lg">📥</span>
             下载图像
           </button>
@@ -181,7 +182,7 @@ const shareToPlatform = (platform: string) => {
           </button>
 
           <button @click="showGenerationSettings = true"
-            class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-blue-200 to-indigo-200 text-blue-700 hover:from-blue-300 hover:to-indigo-300 hover:text-blue-800 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1">
+            class="flex items-center gap-2 px-4 py-2 md:px-6 md:py-2.5 rounded-full font-semibold bg-gradient-to-r from-blue-200 to-indigo-200 text-blue-600 hover:from-blue-300 hover:to-indigo-300 hover:text-blue-700 transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-1">
             <span class="text-lg">🎨</span>
             生成设置
           </button>
@@ -191,10 +192,10 @@ const shareToPlatform = (platform: string) => {
       <!-- 画布区域 -->
       <div ref="canvasContainer" class="mb-2 mt--6 md:mb-8 flex-grow-10 h-0 flex items-center justify-center p-4">
         <div :style="wrapperStyle"
-          class="relative border-3 border-green-300 rounded-2xl shadow-2xl shadow-green-500/20 bg-gradient-to-br from-green-50/80 to-emerald-50/60 overflow-hidden backdrop-blur-sm transition-all duration-300 hover:scale-101 hover:shadow-3xl hover:shadow-green-500/30">
+          class="relative border-3 border-blue-300 rounded-2xl shadow-2xl shadow-blue-500/20 bg-gradient-to-br from-blue-50/80 to-sky-50/60 overflow-hidden backdrop-blur-sm transition-all duration-300 hover:scale-101 hover:shadow-3xl hover:shadow-blue-500/30">
           <canvas :key="canvasKey" :ref="setCanvasEl" :style="canvasStyle" class="rounded-xl cursor-pointer"
             @click="handleCanvasClick"></canvas>
-          <div v-if="!imagesLoaded" absolute inset-0 flex items-center justify-center text-2xl text-green-700>
+          <div v-if="!imagesLoaded" absolute inset-0 flex items-center justify-center text-2xl text-blue-600>
             加载中...
           </div>
         </div>
@@ -225,7 +226,7 @@ const shareToPlatform = (platform: string) => {
               </button>
 
               <!-- 放大的图片 -->
-              <img :src="imageDataURL" alt="suzume suzume"
+              <img :src="imageDataURL" alt=" suzume"
                 class="max-w-[98vw] max-h-[98vh] object-contain rounded-2xl shadow-2xl animate-pulse-glow" />
             </div>
           </Transition>
@@ -246,66 +247,75 @@ const shareToPlatform = (platform: string) => {
             enter-to-class="opacity-100 scale-100 translate-y-0" leave-from-class="opacity-100 scale-100 translate-y-0"
             leave-to-class="opacity-0 scale-90 translate-y-4">
             <div v-if="showAuthorDialog"
-              class="relative bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 rounded-3xl shadow-2xl p-8 max-w-md mx-4 border-2 border-green-200/50 backdrop-blur-md"
+              class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-blue-100 rounded-3xl shadow-2xl p-8 max-w-md mx-4 border-2 border-blue-200/50 backdrop-blur-md"
               @click.stop>
 
               <!-- 可爱的装饰圆点 -->
-              <div class="absolute top-4 left-4 w-3 h-3 bg-green-300/40 rounded-full animate-pulse"></div>
-              <div class="absolute top-6 right-8 w-2 h-2 bg-emerald-400/50 rounded-full animate-bounce"
+              <div class="absolute top-4 left-4 w-3 h-3 bg-blue-300/40 rounded-full animate-pulse"></div>
+              <div class="absolute top-6 right-8 w-2 h-2 bg-sky-400/50 rounded-full animate-bounce"
                 style="animation-delay: 0.5s;"></div>
-              <div class="absolute bottom-6 left-6 w-4 h-4 bg-green-200/60 rounded-full animate-pulse"
+              <div class="absolute bottom-6 left-6 w-4 h-4 bg-blue-200/60 rounded-full animate-pulse"
                 style="animation-delay: 1s;"></div>
 
               <!-- 关闭按钮 -->
               <button @click="hideAuthorDialog"
-                class="absolute top-4 right-4 w-8 h-8 bg-green-100 hover:bg-green-200 rounded-full shadow-sm flex items-center justify-center text-green-600 hover:text-green-700 transition-all duration-200 hover:scale-110">
+                class="absolute top-4 right-4 w-8 h-8 bg-blue-100 hover:bg-blue-200 rounded-full shadow-sm flex items-center justify-center text-blue-600 hover:text-blue-700 transition-all duration-200 hover:scale-110">
                 <span class="text-sm">✕</span>
               </button>
 
               <!-- 标题 -->
               <div class="text-center mb-6">
                 <img class="mx-auto w-12 mb-2" src="/favicon.png" />
-                <h3 class="text-xl font-bold text-green-700 mb-1">关于这个小工具</h3>
-                <div class="w-12 h-1 bg-gradient-to-r from-green-300 to-emerald-300 rounded-full mx-auto"></div>
+                <h3 class="text-xl font-bold text-blue-600 mb-1">关于这个小工具</h3>
+                <div class="w-12 h-1 bg-gradient-to-r from-blue-300 to-sky-300 rounded-full mx-auto"></div>
               </div>
 
               <!-- 作者信息 -->
               <div class="space-y-4 text-center">
                 <!-- 开发者信息 -->
-                <div class="bg-white/70 rounded-2xl p-4 border border-green-200/30 shadow-sm">
-                  <div class="text-sm text-green-600 mb-1">💻 开发者</div>
+                <div class="bg-white/70 rounded-2xl p-4 border border-blue-200/30 shadow-sm">
+                  <div class="text-sm text-blue-500 mb-1">💻 原开发者</div>
                   <a href="https://x.com/@KermanX_" target="_blank"
-                    class="text-green-700 font-semibold hover:text-green-800 transition-colors duration-200 hover:underline">
+                    class="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-200 hover:underline">
                     _Kerman
                   </a>
                 </div>
 
+                <!-- 修改者信息 -->
+                <div class="bg-white/70 rounded-2xl p-4 border border-blue-200/30 shadow-sm">
+                  <div class="text-sm text-blue-500 mb-1">🔧 修改者</div>
+                  <a href="https://github.com/Azusa-mikan" target="_blank"
+                    class="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-200 hover:underline">
+                    梓橙 · 西奈
+                  </a>
+                </div>
+
                 <!-- UP主信息 -->
-                <div class="bg-white/70 rounded-2xl p-4 border border-green-200/30 shadow-sm">
-                  <div class="text-sm text-green-600 mb-1">📺 UP主</div>
-                  <a href="https://space.bilibili.com/6610851" target="_blank"
-                    class="text-green-700 font-semibold hover:text-green-800 transition-colors duration-200 hover:underline">
-                    bilibili@没有未来的Suzume酱
+                <div class="bg-white/70 rounded-2xl p-4 border border-blue-200/30 shadow-sm">
+                  <div class="text-sm text-blue-500 mb-1">📺 UP主</div>
+                  <a href="https://space.bilibili.com/274939213" target="_blank"
+                    class="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-200 hover:underline">
+                    bilibili@明风OuO
                   </a>
                 </div>
 
                 <!-- 项目仓库 -->
-                <div class="bg-white/70 rounded-2xl p-4 border border-green-200/30 shadow-sm">
-                  <div class="text-sm text-green-600 mb-1">🌐 项目地址</div>
-                  <a href="https://github.com/kermanx/suzume-wallpaper" target="_blank"
-                    class="text-green-700 font-semibold hover:text-green-800 transition-colors duration-200 hover:underline break-all">
-                    github.com/kermanx/suzume-wallpaper
+                <div class="bg-white/70 rounded-2xl p-4 border border-blue-200/30 shadow-sm">
+                  <div class="text-sm text-blue-500 mb-1">🌐 项目地址</div>
+                  <a href="https://github.com/Azusa-mikan/mingfeng-wallpaper" target="_blank"
+                    class="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-200 hover:underline break-all">
+                    Azusa-mikan/mingfeng-wallpaper
                   </a>
                 </div>
 
 
                 <!-- 特别感谢-->
-                <div class="bg-white/70 rounded-2xl p-4 border border-green-200/30 shadow-sm">
-                  <div class="text-sm text-green-600 mb-1">🎉 特别感谢</div>
-                  <div class="text-green-700 font-semibold">
-                    表情包原作者：五十根炸虾<br>
+                <div class="bg-white/70 rounded-2xl p-4 border border-blue-200/30 shadow-sm">
+                  <div class="text-sm text-blue-500 mb-1">🎉 特别感谢</div>
+                  <div class="text-blue-600 font-semibold">
+                    表情包原作者：怡子曰曰<br>
                     以及<a href="https://github.com/Lingluoluo/More_Suzume" target="_blank"
-                      class="text-green-700 font-semibold hover:text-green-800 transition-colors duration-200 hover:underline break-all">
+                      class="text-blue-600 font-semibold hover:text-blue-700 transition-colors duration-200 hover:underline break-all">
                       Lingluoluo/More_Suzume
                     </a>
                   </div>
@@ -313,7 +323,7 @@ const shareToPlatform = (platform: string) => {
 
                 <!-- 分享按钮 -->
                 <div class="pt-4">
-                  <div class="text-sm text-green-600 mb-3">✨ 分享给朋友们</div>
+                  <div class="text-sm text-blue-500 mb-3">✨ 分享给朋友们</div>
                   <div class="flex flex-wrap justify-center gap-2 max-w-xs mx-auto">
                     <button @click="shareToPlatform('twitter')"
                       class="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full hover:from-blue-200 hover:to-blue-300 hover:text-blue-800 transition-all duration-200 text-sm font-medium shadow-sm hover:shadow-md hover:-translate-y-0.5">
@@ -340,9 +350,17 @@ const shareToPlatform = (platform: string) => {
     </Teleport>
   </div>
 
+  <!-- 备案信息 -->
+  <footer class="fixed bottom-2 left-2 z-10">
+    <div class="text-xs text-blue-400/70 bg-white/20 backdrop-blur-sm rounded-lg px-2 py-1 border border-blue-200/20">
+      <a :href="config.icp.url" target="_blank" class="hover:text-blue-500 transition-colors">
+        {{ config.icp.number }}
+      </a>
+    </div>
+  </footer>
 
-  <img fixed z-1000 right-0 bottom-0 w-12 md:w-20 hover:scale-y-90 transform-origin-right-bottom transition-all
-    active:translate-y-2 md:active:translate-y-4 src="../suzume/134.png" @click="showAuthorDialog = !showAuthorDialog"
+  <img fixed z-1000 right-19 bottom-0 w-12 md:w-20 hover:scale-y-90 transform-origin-right-bottom transition-all
+    active:translate-y-2 md:active:translate-y-4 src="../mingfeng/5.png" @click="showAuthorDialog = !showAuthorDialog"
     class="cursor-pointer" />
 </template>
 
@@ -351,11 +369,11 @@ const shareToPlatform = (platform: string) => {
 
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
   }
 
   50% {
-    box-shadow: 0 0 40px rgba(34, 197, 94, 0.5), 0 0 80px rgba(34, 197, 94, 0.2);
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.5), 0 0 80px rgba(59, 130, 246, 0.2);
   }
 }
 
