@@ -1,9 +1,8 @@
-# Suzume 壁纸生成器
+# 明风OuO 壁纸生成器
 
 https://mingfeng.azusa-mikan.sakuravalley.xyz
 
-[![screenshot](./public/screenshot.png)
-](请查看部署配置中的 VITE_BASE_URL 环境变量)
+[screenshot](./public/screenshot.png)
 
 ### 环境配置
 
@@ -12,6 +11,7 @@ https://mingfeng.azusa-mikan.sakuravalley.xyz
 ```env
 # 网站基础 URL
 VITE_BASE_URL=https://your-domain.com
+VITE_ICP_NUMBER=京ICP备123456789号
 ```
 
 ### 特别感谢
@@ -26,4 +26,4 @@ Android 版 QQ 的表情包文件夹，路径为：
 /Android/data/com.tencent.mobileqq/Tencent/MobileQQ/.emotionsm/<id>
 ```
 
-原作者：五十根炸虾
+原作者：怡子曰曰
