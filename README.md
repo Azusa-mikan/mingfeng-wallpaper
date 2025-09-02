@@ -2,7 +2,7 @@
 
 https://mingfeng.azusa-mikan.sakuravalley.xyz
 
-[screenshot](./public/screenshot.png)
+![screenshot](./public/screenshot.png)
 
 ### 环境配置
 
