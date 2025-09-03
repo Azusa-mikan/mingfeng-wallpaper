@@ -83,7 +83,7 @@ export async function downloadWallpaper() {
   }
 
   const link = document.createElement('a')
-  link.download = `suzume-wallpaper-${Date.now()}.png`
+  link.download = `mingfeng-wallpaper-${Date.now()}.png`
   link.href = imageDataURL.value
   link.click()
 }

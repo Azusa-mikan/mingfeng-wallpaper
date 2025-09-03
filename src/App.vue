@@ -359,7 +359,7 @@ const shareToPlatform = (platform: string) => {
     </div>
   </footer>
 
-  <img fixed z-1000 right-19 bottom-0 w-12 md:w-20 hover:scale-y-90 transform-origin-right-bottom transition-all
+  <img fixed z-1000 right-0 md:right-19 bottom-0 w-12 md:w-20 hover:scale-y-90 transform-origin-right-bottom transition-all
     active:translate-y-2 md:active:translate-y-4 src="../mingfeng/5.png" @click="showAuthorDialog = !showAuthorDialog"
     class="cursor-pointer" />
 </template>
