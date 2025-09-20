@@ -1,6 +1,6 @@
-# 明风OuO 壁纸生成器
+# 遐蝶 壁纸生成器
 
-https://mingfeng.azusa-mikan.sakuravalley.xyz
+https://castorice.azusa-mikan.sakuravalley.xyz
 
 ![screenshot](./public/screenshot.png)
 
@@ -20,10 +20,8 @@ VITE_ICP_NUMBER=京ICP备123456789号
 
 ### 素材来源
 
-Android 版 QQ 的表情包文件夹，路径为：
+https://t.me/castoricerin
 
-```
-/Android/data/com.tencent.mobileqq/Tencent/MobileQQ/.emotionsm/<id>
-```
+原作者：[小熊貓](https://space.bilibili.com/391634082)
 
-原作者：怡子曰曰
+素材内容为 AI 创作，请仔细甄别

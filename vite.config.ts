@@ -60,9 +60,9 @@ async function hasTransparentCorners(buffer: Buffer): Promise<boolean> {
 }
 
 const szmFiles = Promise.all(
-  readdirSync(resolve(import.meta.dirname, 'mingfeng'))
+  readdirSync(resolve(import.meta.dirname, 'castorice'))
     .map(async filename => {
-      const buffer = await readFile(resolve(import.meta.dirname, 'mingfeng', filename))
+      const buffer = await readFile(resolve(import.meta.dirname, 'castorice', filename))
       const hasTransparent = await hasTransparentCorners(buffer)
       return hasTransparent ? buffer : null
     })

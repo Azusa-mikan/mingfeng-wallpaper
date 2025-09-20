@@ -12,6 +12,7 @@ interface GenerateMessage {
   height: number
   density: number
   sizeVariation: number
+  exportScale?: number
 }
 
 export type WorkerMessage = InitCanvasMessage | GenerateMessage
@@ -33,7 +34,7 @@ async function loadImages(): Promise<ImageBitmap[]> {
 }
 
 // 绘制贴纸
-async function drawSticks(sticks: StickToDraw[], width: number, height: number) {
+async function drawSticks(sticks: StickToDraw[], width: number, height: number, scale: number = 1) {
   if (!ctx) return
 
   // 清空画布
@@ -42,15 +43,13 @@ async function drawSticks(sticks: StickToDraw[], width: number, height: number) 
 
   // 绘制所有贴纸
   for (const stick of sticks) {
-
-
     const image = loadedImages[stick.index]
     if (!image) continue
 
     ctx.save()
-    ctx.translate(stick.x, stick.y)
+    ctx.translate(stick.x * scale, stick.y * scale)
     ctx.rotate((stick.angle * Math.PI) / 180)
-    ctx.drawImage(image, -stick.size / 2, -stick.size / 2, stick.size, stick.size)
+    ctx.drawImage(image, (-stick.size * scale) / 2, (-stick.size * scale) / 2, stick.size * scale, stick.size * scale)
     ctx.restore()
 
     // await new Promise(resolve => setTimeout(resolve, 200))
@@ -87,10 +86,39 @@ self.onmessage = async function (e: MessageEvent<WorkerMessage>) {
     }
 
     const sticks = generate(message.width, message.height, loadedImages.length, message.density, message.sizeVariation)
+    
+    // 先在显示画布上绘制（用于预览）
     await drawSticks(sticks, message.width, message.height)
 
     setTimeout(async () => {
       if (!offscreenCanvas) return
+      
+      // 如果有导出倍数，创建高分辨率版本
+      const exportScale = message.exportScale || 1
+      if (exportScale > 1) {
+        // 创建高分辨率离屏画布
+        const exportCanvas = new OffscreenCanvas(message.width * exportScale, message.height * exportScale)
+        const exportCtx = exportCanvas.getContext('2d')
+        
+        if (exportCtx) {
+          // 在高分辨率画布上绘制
+          const originalCtx = ctx
+          ctx = exportCtx
+          await drawSticks(sticks, message.width * exportScale, message.height * exportScale, exportScale)
+          ctx = originalCtx
+          
+          // 导出高分辨率版本
+          const blob = await exportCanvas.convertToBlob({ type: 'image/png' })
+          const reader = new FileReader()
+          reader.onloadend = () => {
+            self.postMessage({ type: 'generated', blob, dataURL: reader.result })
+          }
+          reader.readAsDataURL(blob)
+          return
+        }
+      }
+      
+      // 默认导出（原分辨率）
       const blob = await offscreenCanvas.convertToBlob({ type: 'image/png' })
       const reader = new FileReader()
       reader.onloadend = () => {

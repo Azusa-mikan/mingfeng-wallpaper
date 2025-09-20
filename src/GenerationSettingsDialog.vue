@@ -69,9 +69,9 @@ const sizeVariationDescription = computed(() => {
 
     <!-- 对话框 -->
     <div
-      class="flex flex-col relative bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl shadow-blue-500/20 border-2 border-blue-200 max-w-md w-full h-[80vh] md:h-[80vh] h-[90vh]">
+      class="flex flex-col relative bg-gradient-to-br from-white to-purple-50 rounded-2xl shadow-2xl shadow-purple-500/20 border-2 border-purple-200 max-w-md w-full h-[80vh] md:h-[80vh] h-[90vh]">
       <!-- 头部 -->
-      <div class="flex-shrink-0 bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-4 md:p-6 rounded-t-2xl">
+      <div class="flex-shrink-0 bg-gradient-to-r from-purple-500 to-violet-500 text-white p-4 md:p-6 rounded-t-2xl">
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold flex items-center gap-2">
             <span class="text-2xl">🎨</span>
@@ -114,8 +114,8 @@ const sizeVariationDescription = computed(() => {
           <div class="grid grid-cols-1 gap-2">
             <button v-for="preset in presetConfigs" :key="preset.name" @click="selectPreset(preset)"
               class="p-3 text-left rounded-xl border-2 transition-all duration-200 hover:shadow-md" :class="selectedDensity === preset.density && selectedSizeVariation === preset.sizeVariation
-                ? 'border-blue-400 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 shadow-md'
-                : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50 text-gray-700'">
+                ? 'border-purple-400 bg-gradient-to-r from-purple-100 to-violet-100 text-purple-800 shadow-md'
+                : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50 text-gray-700'">
               <div class="flex justify-between items-start">
                 <div class="flex-1">
                   <p class="font-semibold">{{ preset.name }}</p>
@@ -171,14 +171,14 @@ const sizeVariationDescription = computed(() => {
 
       <!-- 底部按钮 -->
       <div
-        class="flex-shrink-0 bg-gradient-to-r from-gray-50 to-blue-50 p-4 md:p-6 rounded-b-2xl border-t-2 border-blue-200">
+        class="flex-shrink-0 bg-gradient-to-r from-gray-50 to-purple-50 p-4 md:p-6 rounded-b-2xl border-t-2 border-purple-200">
         <div class="flex gap-3">
           <button @click="closeDialog"
             class="flex-1 px-4 py-2.5 rounded-xl font-semibold border-2 border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-100 transition-all duration-200">
             取消
           </button>
           <button @click="applySettings"
-            class="flex-1 px-4 py-2.5 rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 shadow-md hover:shadow-lg">
+            class="flex-1 px-4 py-2.5 rounded-xl font-semibold bg-gradient-to-r from-purple-500 to-violet-500 text-white hover:from-purple-600 hover:to-violet-600 transition-all duration-200 shadow-md hover:shadow-lg">
             确定
           </button>
         </div>
@@ -192,7 +192,7 @@ const sizeVariationDescription = computed(() => {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #3b82f6;
+  background: #8b5cf6;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -200,7 +200,7 @@ const sizeVariationDescription = computed(() => {
 .slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
-  background: #3b82f6;
+  background: #8b5cf6;
   border-radius: 50%;
   cursor: pointer;
   border: 0;

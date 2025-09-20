@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { wallpaperWidth, wallpaperHeight } from './logic'
+import { wallpaperWidth, wallpaperHeight, exportScale } from './logic'
 
 const show = defineModel<boolean>()
 
@@ -16,11 +16,13 @@ const presetSizes = [
 // 临时设置值
 const selectedWidth = ref(wallpaperWidth.value)
 const selectedHeight = ref(wallpaperHeight.value)
+const selectedExportScale = ref(exportScale.value)
 
 watch(show, (newValue) => {
   if (newValue) {
     selectedWidth.value = wallpaperWidth.value
     selectedHeight.value = wallpaperHeight.value
+    selectedExportScale.value = exportScale.value
   }
 })
 
@@ -34,6 +36,7 @@ const selectPreset = (preset: typeof presetSizes[0]) => {
 const applySettings = () => {
   wallpaperWidth.value = selectedWidth.value
   wallpaperHeight.value = selectedHeight.value
+  exportScale.value = selectedExportScale.value
   show.value = false
 }
 
@@ -41,6 +44,7 @@ const applySettings = () => {
 const closeDialog = () => {
   selectedWidth.value = wallpaperWidth.value
   selectedHeight.value = wallpaperHeight.value
+  selectedExportScale.value = exportScale.value
   show.value = false
 }
 
@@ -59,9 +63,9 @@ const currentRatio = computed(() => {
     <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="closeDialog"></div>
 
     <!-- 对话框 -->
-    <div class="flex flex-col relative bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-2xl shadow-blue-500/20 border-2 border-blue-200 max-w-md w-full h-[90vh] md:h-[80vh]">
-      <!-- 头部 -->
-      <div class="flex-shrink-0 bg-gradient-to-r from-blue-500 to-sky-500 text-white p-4 md:p-6 rounded-t-2xl">
+    <div class="flex flex-col relative bg-gradient-to-br from-white to-purple-50 rounded-2xl shadow-2xl shadow-purple-500/20 border-2 border-purple-200 max-w-md w-full h-[90vh] md:h-[80vh]">
+      <!-- 标题栏 -->
+      <div class="flex-shrink-0 bg-gradient-to-r from-purple-500 to-violet-500 text-white p-4 md:p-6 rounded-t-2xl">
         <div class="flex items-center justify-between">
           <h2 class="text-xl font-bold flex items-center gap-2">
             <span class="text-2xl">⚙️</span>
@@ -94,8 +98,8 @@ const currentRatio = computed(() => {
           <div class="grid grid-cols-1 gap-2">
             <button v-for="preset in presetSizes" :key="preset.name" @click="selectPreset(preset)"
               class="p-3 text-left rounded-xl border-2 transition-all duration-200 hover:shadow-md" :class="selectedWidth === preset.width && selectedHeight === preset.height
-                ? 'border-blue-400 bg-gradient-to-r from-blue-100 to-sky-100 text-blue-800 shadow-md'
-                : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50 text-gray-700'">
+                ? 'border-purple-400 bg-gradient-to-r from-purple-100 to-violet-100 text-purple-800 shadow-md'
+              : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50 text-gray-700'">
               <div class="flex justify-between items-center">
                 <div>
                   <p class="font-semibold">{{ preset.name }}</p>
@@ -119,26 +123,50 @@ const currentRatio = computed(() => {
             <div>
               <label class="block text-sm font-medium text-gray-600 mb-1">宽度 (px)</label>
               <input v-model.number="selectedWidth" type="number" min="100" max="10000"
-                class="w-full p-2 border-2 border-gray-200 rounded-lg focus:border-blue-400 focus:outline-none transition-colors" />
+                class="w-full p-2 border-2 border-gray-200 rounded-lg focus:border-purple-400 focus:outline-none transition-colors" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-600 mb-1">高度 (px)</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">高度 (px)</label>
               <input v-model.number="selectedHeight" type="number" min="100" max="10000"
-                class="w-full p-2 border-2 border-gray-200 rounded-lg focus:border-blue-400 focus:outline-none transition-colors" />
+                class="w-full p-2 border-2 border-gray-200 rounded-lg focus:border-purple-400 focus:outline-none transition-colors" />
             </div>
           </div>
         </div>
       </div>
 
+      <!-- 导出设置 -->
+      <div class="flex-shrink-0 px-4 pb-2 md:px-6 md:pb-4">
+        <h3 class="text-lg font-semibold text-gray-700 mb-3 flex items-center gap-2">
+          <span class="text-xl">📤</span>
+          导出设置
+        </h3>
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-2">导出分辨率倍数</label>
+            <div class="grid grid-cols-4 gap-2">
+              <button v-for="scale in [1, 2, 3, 4]" :key="scale" @click="selectedExportScale = scale"
+                class="p-2 text-center rounded-lg border-2 transition-all duration-200 text-sm font-medium" :class="selectedExportScale === scale
+                  ? 'border-purple-400 bg-gradient-to-r from-purple-100 to-violet-100 text-purple-800'
+                  : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50 text-gray-700'">
+                {{ scale }}x
+              </button>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+              导出分辨率: {{ selectedWidth * selectedExportScale }} × {{ selectedHeight * selectedExportScale }}
+            </p>
+          </div>
+        </div>
+      </div>
+
       <!-- 底部按钮 -->
-      <div class="flex-shrink-0 bg-gradient-to-r from-gray-50 to-blue-50 p-4 md:p-6 rounded-b-2xl border-t-2 border-blue-200">
-        <div class="flex gap-3">
-          <button @click="closeDialog"
-            class="flex-1 px-4 py-2.5 rounded-xl font-semibold border-2 border-gray-300 text-gray-600 hover:border-gray-400 hover:bg-gray-100 transition-all duration-200">
-            取消
-          </button>
-          <button @click="applySettings"
-            class="flex-1 px-4 py-2.5 rounded-xl font-semibold bg-gradient-to-r from-blue-500 to-sky-500 text-white hover:from-blue-600 hover:to-sky-600 transition-all duration-200 shadow-md hover:shadow-lg">
+      <div class="flex-shrink-0 bg-gradient-to-r from-gray-50 to-purple-50 p-4 md:p-6 rounded-b-2xl border-t-2 border-purple-200">
+          <div class="flex gap-3">
+            <button @click="closeDialog"
+              class="flex-1 px-4 py-2.5 rounded-xl font-semibold bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all duration-200">
+              取消
+            </button>
+            <button @click="applySettings"
+              class="flex-1 px-4 py-2.5 rounded-xl font-semibold bg-gradient-to-r from-purple-500 to-violet-500 text-white hover:from-purple-600 hover:to-violet-600 transition-all duration-200 shadow-md hover:shadow-lg">
             确定
           </button>
         </div>

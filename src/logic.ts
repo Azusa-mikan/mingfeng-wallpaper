@@ -15,6 +15,9 @@ export const imageBlob = ref<Blob>()
 export const generateDensity = useLocalStorage<number>('szm-wallpaper.generateDensity', 20)  // 密度 (5-100)
 export const generateSizeVariation = useLocalStorage<number>('szm-wallpaper.generateSizeVariation', 1.0)  // 大小离散程度 (0.5-2.0)
 
+// 导出设置
+export const exportScale = useLocalStorage<number>('szm-wallpaper.exportScale', 2)  // 导出分辨率倍数 (1-4)
+
 const drawingWorker = new Worker(new URL('./worker.ts', import.meta.url), {
   type: 'module',
 })
@@ -52,7 +55,8 @@ export function generateWallpaper() {
     width: wallpaperWidth.value,
     height: wallpaperHeight.value,
     density: generateDensity.value,
-    sizeVariation: generateSizeVariation.value
+    sizeVariation: generateSizeVariation.value,
+    exportScale: exportScale.value
   } satisfies WorkerMessage)
 }
 
@@ -83,7 +87,7 @@ export async function downloadWallpaper() {
   }
 
   const link = document.createElement('a')
-  link.download = `mingfeng-wallpaper-${Date.now()}.png`
+  link.download = `castorice-wallpaper-${Date.now()}.png`
   link.href = imageDataURL.value
   link.click()
 }

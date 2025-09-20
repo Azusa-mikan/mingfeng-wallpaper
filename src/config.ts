@@ -5,8 +5,8 @@ export const config = {
   
   // 网站信息
   site: {
-    name: '明风OuO 壁纸生成器',
-    description: '来试试这个可爱的 明风OuO 壁纸生成器喵！',
+    name: '遐蝶 壁纸生成器',
+    description: '来试试这个可爱的 遐蝶 壁纸生成器喵！',
   },
   
   // 图片相关配置
